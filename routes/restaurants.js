@@ -123,4 +123,38 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.updateTable
   )
+  /**
+   * @api {get} http://localhost:5000/restaurant/table/get Get tables of a restaurant
+   * @apiName Get Tables
+   * @apiGroup Restaurant
+   * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
+   * @apiSuccess {Object[]} array of table objects
+   * @apiError 404 Restaurant not found
+   * @apiError 400 Error
+   * @apiError 403 Unauthorized
+   */
+  app.get(
+    "/restaurant/table/get",
+    [authJwt.verifyToken],
+    controller.getTables
+  )
+  /**
+ * @api {delete} http://localhost:5000/restaurant/table/delete Delete Table of a restaurant
+ * @apiName Delete Table
+ * @apiGroup Restaurant
+ * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
+ * @apiParam {String} _id id of table
+ * @apiSuccess {String} Successfully deleted
+ * @apiError 404 Restaurant not found
+ * @apiError 400 Error
+ * @apiError 403 Unauthorized
+ */
+  app.patch(
+    "/restaurant/table/delete",
+    [authJwt.verifyToken],
+    controller.deleteTable
+    )
 };
+
+
+

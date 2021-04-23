@@ -13,6 +13,7 @@ Notes:-
 
 const Restaurant = require("../models/restaurant.model");
 var bcrypt = require("bcryptjs");
+const restaurant = require("../models/restaurant.model");
 
 
 exports.getAllRestaurants = (req, res) => {
@@ -96,4 +97,25 @@ exports.updateTable = (req, res) => {
       .catch((err) => res.status(400).json("Error: " + err));
 
   })
+}
+
+exports.getTables = (req, res) => {
+  Restaurant.findById(req.userId).then((restaurant)=>{
+    if(restaurant){
+      return res.status(200).json(restaurant.tables);
+    }
+    else{
+      return res.status(404).json("Restaurant Not Found");
+    }
+  }).catch(err => res.status(400).json("Error: "+ err));
+}
+
+exports.deleteTable = (req, res) => {
+  Restaurant.findById(req.userId).then((restaurant)=>{
+    restaurant.tables.pull(req.body._id);
+    restaurant
+      .save()
+      .then(()=> res.status(200).json("Table Deleted"))
+      .catch((err) => res.status(400).json("Error: "+err))
+  }).catch((err) =>res.status(404).json("Error: " +err))
 }
