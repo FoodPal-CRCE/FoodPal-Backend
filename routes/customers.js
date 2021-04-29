@@ -81,7 +81,7 @@ module.exports = function (app) {
    * @apiParam {String} id Restaurant id
    * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
    *
-   *  @apiSuccess {Object} Restaurant object
+   *  @apiSuccess {Object[]} Restaurant object
    * @apiError 400 Error
    * @apiError 403 Unauthorized
    */
@@ -90,7 +90,22 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.getRestaurantById
   );
-
+    /**
+   * @api {get} http://localhost:5000/customer/get/restaurants/ Get all restaurants 
+   * @apiName GetAllRestaurants
+   * @apiGroup Customer
+   *
+   * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
+   *
+   *  @apiSuccess {Object} Restaurant object
+   * @apiError 400 Error
+   * @apiError 403 Unauthorized
+   */
+  app.get(
+    "/customer/get/restaurants",
+    [authJwt.verifyToken],
+    controller.getAllRestaurants
+  )
   //ignore
 
   // app.get("/customers/user", [authJwt.verifyToken], controller.userBoard);

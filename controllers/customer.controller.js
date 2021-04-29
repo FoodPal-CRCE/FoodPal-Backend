@@ -73,6 +73,12 @@ exports.getRestaurantById = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
+exports.getAllRestaurants = (req, res) => {
+  Restaurant.find()
+  .then((restaurant) => res.status(200).json(restaurant))
+  .catch((err) => res.status(400).json("Error: " + err));
+} 
+
 // exports.userBoard = (req, res) => {
 //   res.status(200).send("User Content");
 // };
