@@ -47,7 +47,9 @@ exports.signin = (req, res) => {
       });
     }
 
-    var token = jwt.sign({ id: customer.id }, config.secret);
+    var token = jwt.sign({ id: customer.id }, config.secret, {
+      // expiresIn: 86400
+    });
 
     res.status(200).send({
       accessToken: token,
