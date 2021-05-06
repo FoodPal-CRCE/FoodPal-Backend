@@ -82,34 +82,58 @@ module.exports = function (app) {
   );
 
   /**
-   * @api {get} http://localhost:5000/orders/restaurant Get orders by restuarant id 
+   * @api {get} http://localhost:5000/orders/restaurant Get orders by restuarant id
    * @apiName Get restaurant by id
    * @apiGroup Order
-   * 
+   *
    * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
-   * 
+   *
    * @apiSuccess {Object[]} orders List of orders by restaurant id
    * @apiError 400 Error
    * @apiError 403 Unauthorized
-   * 
+   *
    * */
-  app.get("/orders/restaurant", [authJwt.verifyToken], controller.getOrderByRestaurantId)
+  app.get(
+    "/orders/restaurant",
+    [authJwt.verifyToken],
+    controller.getOrderByRestaurantId
+  );
   /**
-     * @api {get} http://localhost:5000/orders/restaurant Get orders by customer id
-     * @apiName Get customer by id
-     * @apiGroup Order
-     *
-     * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
-     *
-     * @apiSuccess {Object[]} orders List of orders by customer id
-     * @apiError 400 Error
-     * @apiError 403 Unauthorized
-     *
-     * */
-  app.get("/orders/customer", [authJwt.verifyToken], controller.getOrderByCustomerId)
+   * @api {get} http://localhost:5000/orders/restaurant Get orders by customer id
+   * @apiName Get customer by id
+   * @apiGroup Order
+   *
+   * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
+   *
+   * @apiSuccess {Object[]} orders List of orders by customer id
+   * @apiError 400 Error
+   * @apiError 403 Unauthorized
+   *
+   * */
+  app.get(
+    "/orders/customer",
+    [authJwt.verifyToken],
+    controller.getOrderByCustomerId
+  );
+
+  app.get(
+    "/orders/customer/recent",
+    [authJwt.verifyToken],
+    controller.getRecentOrderByCustomerId
+  );
+  app.get(
+    "/orders/restaurant/recent",
+    [authJwt.verifyToken],
+    controller.getRecentOrderByRestaurantId
+  );
+
+  //update paid status from customer end after payment
+  app.patch(
+    "/orders/customer/paid/:id",
+    [authJwt.verifyToken],
+    controller.customerPaidUpdateStatus
+  );
 };
-
-
 
 //ignore for now
 

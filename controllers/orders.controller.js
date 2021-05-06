@@ -23,24 +23,45 @@ exports.getOrderById = (req, res) => {
 };
 
 exports.getOrderByRestaurantId = (req, res) => {
-  Order.find({ "restaurantId": req.userId }).then((orders) => {
+  Order.find({ restaurantId: req.userId }).then((orders) => {
     if (orders) {
-      return res.status(200).json(orders)
+      return res.status(200).json(orders);
     } else {
-      return res.status(404).json("No orders found for this restaurant")
+      return res.status(404).json("No orders found for this restaurant");
     }
-  })
-}
+  });
+};
 
 exports.getOrderByCustomerId = (req, res) => {
-  Order.find({ "userId": req.userId }).then((orders) => {
+  Order.find({ userId: req.userId }).then((orders) => {
     if (orders) {
-      return res.status(200).json(orders)
+      return res.status(200).json(orders);
     } else {
-      return res.status(404).json("No orders found for this customer")
+      return res.status(404).json("No orders found for this customer");
     }
-  })
-}
+  });
+};
+
+exports.getRecentOrderByCustomerId = (req, res) => {
+  Order.find({ userId: req.userId }).then((orders) => {
+    var recentOrders = orders.filter((order) => order.isPaid === false);
+    if (recentOrders) {
+      return res.status(200).json(recentOrders);
+    } else {
+      return res.status(404).json("No recent orders found for this customer");
+    }
+  });
+};
+exports.getRecentOrderByRestaurantId = (req, res) => {
+  Order.find({ restaurantId: req.userId }).then((orders) => {
+    var recentOrders = orders.filter((order) => order.isPaid === false);
+    if (recentOrders) {
+      return res.status(200).json(recentOrders);
+    } else {
+      return res.status(404).json("No recent orders found for this restaurant");
+    }
+  });
+};
 
 exports.addOrder = (req, res) => {
   const userId = req.userId; //from token
@@ -130,6 +151,20 @@ exports.updateOrder = (req, res) => {
       order
         .save()
         .then(() => res.status(200).json("Order updated!"))
+        .catch((err) => res.status(400).json("Error: " + err));
+    } else {
+      return res.status(404).json("Order Not Found");
+    }
+  });
+};
+
+exports.customerPaidUpdateStatus = (req, res) => {
+  Order.findById(req.params.id).then((order) => {
+    if (order) {
+      order.isPaid = true;
+      order
+        .save()
+        .then(() => res.status(200).json("Order is paid for!"))
         .catch((err) => res.status(400).json("Error: " + err));
     } else {
       return res.status(404).json("Order Not Found");

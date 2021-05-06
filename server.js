@@ -11,7 +11,7 @@ const connectDB = require("./services/connection");
 connectDB();
 
 // const restaurantRouter = require("./routes/restaurants");
-const orderRouter = require("./routes/orders");
+// const orderRouter = require("./routes/orders");
 require("./routes/auth")(app);
 require("./routes/customers")(app); //needs a get restaurant
 require("./routes/restaurants")(app); //has the OG get restaurant
