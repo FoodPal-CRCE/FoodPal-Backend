@@ -66,7 +66,9 @@ exports.getRecentOrderByRestaurantId = (req, res) => {
 exports.addOrder = (req, res) => {
   const userId = req.userId; //from token
   const restaurantId = req.body.restaurantId; //from body
+  const restaurantName = req.body.restaurantName;
   const tableNumber = req.body.tableNumber;
+
   const isPaid = false;
   var total = 0.0;
   var items = [];
@@ -87,6 +89,7 @@ exports.addOrder = (req, res) => {
   const newOrder = new Order({
     userId,
     restaurantId,
+    restaurantName,
     tableNumber,
     total,
     isPaid,
@@ -95,10 +98,9 @@ exports.addOrder = (req, res) => {
   newOrder
     .save()
     .then((order) => {
-      res.status(200).json(order._id);    
+      res.status(200).json(order._id);
     })
-    .catch((err) => res.status(400).json("Error: " + err))
-    
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
 exports.updateOrder = (req, res) => {

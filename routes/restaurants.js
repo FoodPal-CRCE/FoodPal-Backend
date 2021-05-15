@@ -86,25 +86,21 @@ module.exports = function (app) {
   );
   /**
    * @api {post} http://localhost:5000/restaurant/table/add Add table
-    * @apiName Add Table
-    * @apiGroup Restaurant
-    *
-    * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
-    * 
-    * @apiParam {String} qrlink QR link of table
-    * @apiParam {Number} capacity Capacity of table
-    * @apiParam {Number} tableNumber Table Number
-    * @apiSuccess {String} json-response Table added
-    * @apiError 400 Error
-    * @apiError 403 Unauthorized
+   * @apiName Add Table
+   * @apiGroup Restaurant
+   *
+   * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
+   *
+   * @apiParam {String} qrlink QR link of table
+   * @apiParam {Number} capacity Capacity of table
+   * @apiParam {Number} tableNumber Table Number
+   * @apiSuccess {String} json-response Table added
+   * @apiError 400 Error
+   * @apiError 403 Unauthorized
    */
-  app.post(
-    "/restaurant/table/add",
-    [authJwt.verifyToken],
-    controller.addTable
-  )
+  app.post("/restaurant/table/add", [authJwt.verifyToken], controller.addTable);
   /**
-  * @api {patch} http://localhost:5000/restaurant/table/update Update table
+   * @api {patch} http://localhost:5000/restaurant/table/update Update table
    * @apiName Update Table
    * @apiGroup Restaurant
    *
@@ -117,12 +113,12 @@ module.exports = function (app) {
    * @apiSuccess {String} json-response Table updated
    * @apiError 400 Error
    * @apiError 403 Unauthorized
-  */
+   */
   app.patch(
     "/restaurant/table/update",
     [authJwt.verifyToken],
     controller.updateTable
-  )
+  );
   /**
    * @api {get} http://localhost:5000/restaurant/table/get Get tables of a restaurant
    * @apiName Get Tables
@@ -133,28 +129,33 @@ module.exports = function (app) {
    * @apiError 400 Error
    * @apiError 403 Unauthorized
    */
-  app.get(
-    "/restaurant/table/get",
-    [authJwt.verifyToken],
-    controller.getTables
-  )
+  app.get("/restaurant/table/get", [authJwt.verifyToken], controller.getTables);
   /**
- * @api {delete} http://localhost:5000/restaurant/table/delete Delete Table of a restaurant
- * @apiName Delete Table
- * @apiGroup Restaurant
- * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
- * @apiParam {String} _id id of table
- * @apiSuccess {String} Successfully deleted
- * @apiError 404 Restaurant not found
- * @apiError 400 Error
- * @apiError 403 Unauthorized
- */
+   * @api {delete} http://localhost:5000/restaurant/table/delete Delete Table of a restaurant
+   * @apiName Delete Table
+   * @apiGroup Restaurant
+   * @apiHeader {String} x-access-token= <code>Token</code> JWT Token as "Token"
+   * @apiParam {String} _id id of table
+   * @apiSuccess {String} Successfully deleted
+   * @apiError 404 Restaurant not found
+   * @apiError 400 Error
+   * @apiError 403 Unauthorized
+   */
   app.patch(
     "/restaurant/table/delete",
     [authJwt.verifyToken],
     controller.deleteTable
-    )
+  );
+
+  app.post("/restaurant/menu/add", [authJwt.verifyToken], controller.addMenu);
+  app.patch(
+    "/restaurant/menu/update",
+    [authJwt.verifyToken],
+    controller.updateMenu
+  );
+  app.delete(
+    "/restaurant/menu/delete",
+    [authJwt.verifyToken],
+    controller.deleteMenu
+  );
 };
-
-
-
