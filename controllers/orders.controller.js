@@ -92,11 +92,13 @@ exports.addOrder = (req, res) => {
     isPaid,
     items,
   });
-
   newOrder
     .save()
-    .then(() => res.status(200).json("Order added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((order) => {
+      res.status(200).json(order._id);    
+    })
+    .catch((err) => res.status(400).json("Error: " + err))
+    
 };
 
 exports.updateOrder = (req, res) => {

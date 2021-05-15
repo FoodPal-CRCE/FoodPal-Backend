@@ -112,7 +112,7 @@ exports.signin_restaurant = (req, res) => {
     }
 
     var token = jwt.sign({ id: restaurant.id }, config.secret, {
-      expiresIn: 86400,
+      // expiresIn: 86400,
     });
 
     res.status(200).send({
