@@ -133,6 +133,8 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.customerPaidUpdateStatus
   );
+
+  app.get("/orders/getChart", [authJwt.verifyToken], controller.getChartData);
 };
 
 //ignore for now

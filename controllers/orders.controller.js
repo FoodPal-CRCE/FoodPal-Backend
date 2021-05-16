@@ -23,13 +23,15 @@ exports.getOrderById = (req, res) => {
 };
 
 exports.getOrderByRestaurantId = (req, res) => {
-  Order.find({ restaurantId: req.userId }).then((orders) => {
-    if (orders) {
-      return res.status(200).json(orders);
-    } else {
-      return res.status(404).json("No orders found for this restaurant");
-    }
-  });
+  Order.find({ restaurantId: req.userId })
+    .sort({ createdAt: -1 })
+    .then((orders) => {
+      if (orders) {
+        return res.status(200).json(orders);
+      } else {
+        return res.status(404).json("No orders found for this restaurant");
+      }
+    });
 };
 
 exports.getOrderByCustomerId = (req, res) => {
@@ -43,24 +45,30 @@ exports.getOrderByCustomerId = (req, res) => {
 };
 
 exports.getRecentOrderByCustomerId = (req, res) => {
-  Order.find({ userId: req.userId }).then((orders) => {
-    var recentOrders = orders.filter((order) => order.isPaid === false);
-    if (recentOrders) {
-      return res.status(200).json(recentOrders);
-    } else {
-      return res.status(404).json("No recent orders found for this customer");
-    }
-  });
+  Order.find({ userId: req.userId })
+    .sort({ createdAt: -1 })
+    .then((orders) => {
+      var recentOrders = orders.filter((order) => order.isPaid === false);
+      if (recentOrders) {
+        return res.status(200).json(recentOrders);
+      } else {
+        return res.status(404).json("No recent orders found for this customer");
+      }
+    });
 };
 exports.getRecentOrderByRestaurantId = (req, res) => {
-  Order.find({ restaurantId: req.userId }).then((orders) => {
-    var recentOrders = orders.filter((order) => order.isPaid === false);
-    if (recentOrders) {
-      return res.status(200).json(recentOrders);
-    } else {
-      return res.status(404).json("No recent orders found for this restaurant");
-    }
-  });
+  Order.find({ restaurantId: req.userId })
+    .sort({ createdAt: -1 })
+    .then((orders) => {
+      var recentOrders = orders.filter((order) => order.isPaid === false);
+      if (recentOrders) {
+        return res.status(200).json(recentOrders);
+      } else {
+        return res
+          .status(404)
+          .json("No recent orders found for this restaurant");
+      }
+    });
 };
 
 exports.addOrder = (req, res) => {
@@ -174,4 +182,26 @@ exports.customerPaidUpdateStatus = (req, res) => {
       return res.status(404).json("Order Not Found");
     }
   });
+};
+
+exports.getChartData = (req, res) => {
+  Order.find({ restaurantId: req.userId })
+    .sort("createdAt")
+    .limit(10)
+    .then((orders) => {
+      var returnedArray = [];
+      orders.forEach((order) => {
+        returnedArray.push({
+          time: order.createdAt,
+          amount: order.total,
+        });
+      });
+      if (returnedArray) {
+        return res.status(200).json(returnedArray);
+      } else {
+        return res
+          .status(404)
+          .json("No recent orders found for this restaurant");
+      }
+    });
 };
